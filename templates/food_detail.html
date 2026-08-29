@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ food.name }} | MazaliMenu{% endblock %}
+
+{% block content %}
+<section class="detail-section">
+    <div class="container">
+        <a href="{% url 'menu' %}" class="back-link">← Menyuga qaytish</a>
+        <div class="detail-grid">
+            <div class="detail-image-wrap">
+                {% if food.image %}
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}" class="detail-image">
+                {% else %}
+                    <div class="detail-image detail-placeholder">🍽️</div>
+                {% endif %}
+            </div>
+            <div class="detail-content">
+                <p class="eyebrow">{{ food.category.name }}</p>
+                <h1>{{ food.name }}</h1>
+                <div class="detail-rating"><span>★★★★★</span> <b>4.9</b> <small>(120 ta baho)</small></div>
+                {% if food.description %}<p class="detail-description">{{ food.description }}</p>{% endif %}
+                <div class="detail-price">{{ food.price }} <span>so‘m</span></div>
+                <div class="detail-actions"><button type="button" class="button button-primary add-to-order">Buyurtmaga qo‘shish <span>+</span></button><button type="button" class="heart-button" aria-label="Sevimlilarga qo‘shish">♡</button></div>
+                <div class="detail-benefits"><div><span>✓</span><p><strong>Yangi masalliqlar</strong><small>Har kuni yangi tayyorlanadi</small></p></div><div><span>✓</span><p><strong>Tez yetkazib berish</strong><small>30–45 daqiqa ichida</small></p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

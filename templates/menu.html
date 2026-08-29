@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menyu | MazaliMenu{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container page-hero-inner">
+        <div><p class="eyebrow">Mazali tanlov</p><h1>Bizning menyu</h1><p>Kayfiyatingizga mos taomni tanlang va yoqimli ta’mni kashf eting.</p></div>
+        <div class="page-hero-icon">🍽️</div>
+    </div>
+</section>
+
+<section class="menu-section">
+    <div class="container">
+        <div class="menu-toolbar">
+            <div class="filter-tabs">
+                <a href="{% url 'menu' %}" class="filter-tab {% if not request.GET.category %}active{% endif %}">Barchasi</a>
+                {% for category in categories %}
+                    <a href="{% url 'menu' %}?category={{ category.id }}" class="filter-tab {% if request.GET.category == category.id|stringformat:'s' %}active{% endif %}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+            <label class="search-box" for="food-search"><span>⌕</span><input id="food-search" type="search" placeholder="Taom qidirish..." autocomplete="off"></label>
+        </div>
+
+        <div class="food-grid" id="food-grid">
+            {% for item in foods %}
+                <article class="food-card searchable-food" data-name="{{ item.name|lower }}" data-description="{{ item.description|default:''|lower }}">
+                    <a href="{% url 'food_detail' item.pk %}" class="food-image-link">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="food-image">
+                        {% else %}
+                            <div class="food-image food-placeholder">🍽️</div>
+                        {% endif %}
+                    </a>
+                    <div class="food-info">
+                        <div class="food-meta"><span>{{ item.category.name }}</span><span class="food-rating">★ 4.9</span></div>
+                        <h3><a href="{% url 'food_detail' item.pk %}">{{ item.name }}</a></h3>
+                        {% if item.description %}<p class="food-description">{{ item.description|truncatechars:75 }}</p>{% endif %}
+                        <div class="food-footer"><strong>{{ item.price }} so‘m</strong><a href="{% url 'food_detail' item.pk %}" class="round-arrow" aria-label="{{ item.name }} tafsilotlari">↗</a></div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="empty-state">Tanlangan kategoriyada taom topilmadi.</p>
+            {% endfor %}
+        </div>
+        <p class="empty-state search-empty" id="search-empty" hidden>Qidiruv bo‘yicha taom topilmadi.</p>
+    </div>
+</section>
+{% endblock %}

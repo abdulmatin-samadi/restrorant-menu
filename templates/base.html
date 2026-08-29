@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mazali taomlar va maxsus menyu.">
+    <title>{% block title %}Mazali Menu{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="{% url 'home' %}" class="brand" aria-label="Bosh sahifa">
+                <span class="brand-mark">M</span>
+                <span class="brand-name">Mazali<span>Menu</span></span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Menyuni ochish" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="main-nav" aria-label="Asosiy navigatsiya">
+                <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Bosh sahifa</a>
+                <a href="{% url 'menu' %}" class="nav-link {% if request.resolver_match.url_name == 'menu' %}active{% endif %}">Menyu</a>
+                <a href="#about" class="nav-link">Biz haqimizda</a>
+                <a href="#contact" class="nav-link">Aloqa</a>
+            </nav>
+
+            <a href="{% url 'menu' %}" class="nav-button">Buyurtma berish <span>↗</span></a>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer" id="contact">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'home' %}" class="brand footer-brand">
+                    <span class="brand-mark">M</span>
+                    <span class="brand-name">Mazali<span>Menu</span></span>
+                </a>
+                <p class="footer-text">Har kuni yangi, mazali va mehr bilan tayyorlangan taomlar.</p>
+            </div>
+            <div>
+                <h3 class="footer-title">Ish vaqti</h3>
+                <p>Dushanba – Yakshanba</p>
+                <p>09:00 – 23:00</p>
+            </div>
+            <div>
+                <h3 class="footer-title">Manzil</h3>
+                <p>Toshkent shahri</p>
+                <p>Amir Temur ko‘chasi, 12</p>
+            </div>
+            <div>
+                <h3 class="footer-title">Bog‘lanish</h3>
+                <a href="tel:+998901234567">+998 90 123 45 67</a>
+                <a href="mailto:info@mazalimenu.uz">info@mazalimenu.uz</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <span>© {% now "Y" %} MazaliMenu. Barcha huquqlar himoyalangan.</span>
+            <span>Yaxshi ta’m — yaxshi kayfiyat.</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

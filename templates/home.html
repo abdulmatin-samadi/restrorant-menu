@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bosh sahifa | MazaliMenu{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Mazali ta’m. Samimiy xizmat.</p>
+            <h1>Har luqmada<br><em>baxt</em> bor.</h1>
+            <p class="hero-description">Yangi masalliqlardan tayyorlangan sevimli taomlaringizni bir joyga jamladik. Bugun o‘zingizni mazali taom bilan siylang.</p>
+            <div class="hero-actions">
+                <a href="{% url 'menu' %}" class="button button-primary">Menyuni ko‘rish <span>→</span></a>
+                <a href="#popular" class="text-link">Mashhur taomlar <span>↓</span></a>
+            </div>
+            <div class="hero-stat-row">
+                <div class="hero-stat"><strong>100%</strong><span>Yangi masalliq</span></div>
+                <div class="hero-stat"><strong>30 min</strong><span>Tez yetkazib berish</span></div>
+                <div class="hero-stat"><strong>4.9/5</strong><span>Mijozlar bahosi</span></div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-blob"></div>
+            <div class="hero-plate">
+                <div class="plate-ring"></div>
+                <div class="plate-food">🍝</div>
+            </div>
+            <div class="floating-card floating-card-top"><span class="floating-icon">✦</span><span><strong>Bugungi maxsus</strong><small>Chef tavsiyasi</small></span></div>
+            <div class="floating-card floating-card-bottom"><span class="rating-star">★</span><span><strong>4.9</strong><small>500+ fikrlar</small></span></div>
+        </div>
+    </div>
+</section>
+
+<section class="category-section" id="popular">
+    <div class="container">
+        <div class="section-heading">
+            <div><p class="eyebrow">Nimani xohlaysiz?</p><h2>Taomlarimiz</h2></div>
+            <a href="{% url 'menu' %}" class="text-link">Barchasini ko‘rish <span>→</span></a>
+        </div>
+        <div class="category-grid">
+            {% for category in categories %}
+                <a class="category-card" href="{% url 'menu' %}?category={{ category.id }}">
+                    <span class="category-emoji">{% cycle '🍕' '🍔' '🥗' '🍰' '☕' '🍜' %}</span>
+                    <span class="category-name">{{ category.name }}</span>
+                    <span class="category-arrow">↗</span>
+                </a>
+            {% empty %}
+                <p class="empty-state">Hozircha kategoriyalar mavjud emas.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="featured-section">
+    <div class="container">
+        <div class="section-heading">
+            <div><p class="eyebrow">Chef tanlovi</p><h2>Mashhur taomlar</h2></div>
+            <a href="{% url 'menu' %}" class="text-link">Menyu sahifasi <span>→</span></a>
+        </div>
+        <div class="food-grid">
+            {% for item in foods|slice:":6" %}
+                <article class="food-card">
+                    <a href="{% url 'food_detail' item.pk %}" class="food-image-link">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="food-image">
+                        {% else %}
+                            <div class="food-image food-placeholder">🍽️</div>
+                        {% endif %}
+                        <span class="food-badge">Mashhur</span>
+                    </a>
+                    <div class="food-info">
+                        <div class="food-meta"><span>{{ item.category.name }}</span><span class="food-rating">★ 4.9</span></div>
+                        <h3><a href="{% url 'food_detail' item.pk %}">{{ item.name }}</a></h3>
+                        <div class="food-footer"><strong>{{ item.price }} so‘m</strong><a href="{% url 'food_detail' item.pk %}" class="round-arrow" aria-label="{{ item.name }} tafsilotlari">↗</a></div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="empty-state">Hozircha taomlar mavjud emas. Admin paneldan taom qo‘shing.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="about-section" id="about">
+    <div class="container about-grid">
+        <div class="about-art"><span>🥘</span><div class="about-stamp">SINCE<br><strong>2024</strong></div></div>
+        <div class="about-copy"><p class="eyebrow">Biz haqimizda</p><h2>Taom tayyorlash — bu bizning <em>san’atimiz.</em></h2><p>Biz har bir taomni sifatli masalliqlar, o‘ziga xos retseptlar va katta mehr bilan tayyorlaymiz. Biz uchun sizning mamnunligingiz — eng katta mukofot.</p><a href="{% url 'menu' %}" class="button button-dark">Taomlarni ko‘rish <span>→</span></a></div>
+    </div>
+</section>
+{% endblock %}
